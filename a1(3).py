@@ -140,7 +140,7 @@ def display_board(board: tuple[tuple[str]]) -> None:
     for i in range(size):
         print(f"{i+1}|" + "|".join(board[i]) + "|")
         print(" " + "+-+" * size)
-        
+ #""       
         
 def play_game() -> None:
     """Play a single game of Memory Mash from start to finish"""
