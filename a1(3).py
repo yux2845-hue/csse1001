@@ -9,26 +9,29 @@ from support import *
 # Define your functions here
 def num_hours() ->float:
     """Return the hours spent on this assignment."""
-    return 15.0
+    return 30.0
 
 def parse_coordinate(coord: str) -> tuple[int, int]:
     """Corvert a '1-indexed' coordinate string like '1,1' to a 0-indexed
 tuple."""
-    row_str, col_str, = coord.split(',')
-    row = int(row_str) - 1
-    col = int(col_str) - 1
+    parts = coord.split(',')
+    row = int(parts[0]) - 1
+    col = int(parts[1]) - 1
     return (row, col)
 
 
 def check_coordinate(coord: str) -> bool:
     """Check if the input is a valid coordinate string (two non- negative
 digits seperated by a comma)."""
-    parts = coord.split(',')
     if len(parts) != 2:
         return False
-    row_str, col_str = parts
-    if not (row_str.isdigit() and col_str.isdigit()):
+    if coord[1] != ",":
         return False
+    if not coord[0].isdigit():
+        return False
+    if not coord[1].isdigit():
+        return False
+
     return True
 
 
@@ -37,7 +40,8 @@ def get_game_size() -> int:
 (1-9 inclusive)."""
     while True:
         user_input = input(SIZE_PROMPT)
-        if user_input.isdigit():
+        
+        if len(user_input) == 1 and user_input.isdigit():
             game_size = int(user_input)
             if 1 <= game_size <= 9:
                 return game_size
@@ -46,20 +50,12 @@ def get_game_size() -> int:
 def parse_selection(player_input: str) -> list[tuple[int, int]] | None:
     """Parse a string of coordinate (e.g., '1,1 2,2') into a list of
 0-indexed tuples. Return None if any coordinate is invalid."""
-    coords = []
-    parts = player_input.split()
-    if len(parts) != 2:
-        return None
-    for part in parts:
-        if ',' not in part:
+    parts = []
+    for coord in coords:
+        if not check_coordinate():
             return None
-        x_str, y_str = part.split(',')
-        if not (x_str.isdigit() and y_str.isdigit()):
-            return None
-        x = int(x_str)
-        y = int(y_str)
-        coords.append((x - 1, y - 1))
-    return coords
+        parts.append(parse_coordinate(coord))
+    return parts
         
 
 def check_game_bounds(coordinate_sequence: list[tuple[int, int]],
@@ -71,14 +67,19 @@ def check_game_bounds(coordinate_sequence: list[tuple[int, int]],
 """
     if len(coordinate_sequence) != game_size:
         return False
-    if len(set(coordinate_sequence)) != len(coordinate_sequence):
-        return False
-    for row, col in coordinate_sequence:
-        if row < 0 or col <0:
+    for coord_seq in coordinate_sequence:
+        row = coord_seq[0]
+        col = coord_seq[1]
+        if row < 0 or col < 0:
             return False
         if row >= game_size or col >= game_size:
             return False
+    for  row in range(1, len(coordinate_sequence)):
+        for col in range(row+1, len(coordinate_sequence)):
+            if coordinate_sequence[i] == coordinate_sequence[]:
+                return False
     return True
+
 
 
 def get_action(game_size: int) -> str:
