@@ -147,12 +147,10 @@ def display_board(board: tuple[tuple[str]]) -> None:
     """Print the board in the required format
 (including row/column numbers and separagtors)."""
     size = len(board)
-    print(" " + " ".join(str(i+1) for i in range(size)) + " ")
-    print(" " + "+-+" * size + "+")
-    for i in range(size):
+    for _ in range(size):
         print(f"{i+1}|" + "|".join(board[i]) + "|")
         print(" " + "+-+" * size)
- #""       
+ 
         
 def play_game() -> None:
     """Play a single game of Memory Mash from start to finish"""
@@ -160,33 +158,32 @@ def play_game() -> None:
     game_size = get_game_size()
     hidden = generate_hidden_state(game_size)
     visible = generate_visible_state(game_size)
-    score = 0
 
     while True:
-        all_revealed = all(cell != HIDDEN for row in visible for cell in row)
-        if all_revealed:
-            print(WIN_MESSAGE)
-            print(f"You won in {score} moves!")
-            break
-
         display_board(visible)
         action = get_action(game_size)
 
-        if action == QUIT_COMMAND:
-            print(f"Game quit! Your score: {score}")
+        if action == HELP_COMMAND:
+            print(HELP_COMMAND)
+        elif action == QUIT_COMMAND:
+            return
+        else:
+            flipped = parse_selection(actoin)
+            peeked = peek(visible, hidden, flipped)
+            display_board()
+            if is_match(flipped,hiddenn) is not None:
+                visible = peeked
+            all_realved = False
+            for x in visible :
+                if char != 'x' :
+                    break
+            all_realved = True
+            
+            if (visible):
+            print(WIN_MESSAGE)
             return
 
-        selection = parse_selection(action)
-        peeked = peek(visible, hidden, selection)
-        display_board(peeked)
-        score += 1
-
-        match_value = is_match(selection, hidden)
-        if match_value is not None:
-            visible = peeked
-            print (f"Match found! Card value: {match_value}")
-        else:
-            print("No match! Cards flipped back.")
+   
     
 
 def main() -> None:
