@@ -14,22 +14,22 @@ def num_hours() ->float:
 def parse_coordinate(coord: str) -> tuple[int, int]:
     """Corvert a '1-indexed' coordinate string like '1,1' to a 0-indexed
 tuple."""
-    parts = coord.split(',')
-    row = int(parts[0]) - 1
-    col = int(parts[1]) - 1
+row_str, col_str = coord.split(',')
+    row = int(row_str) - 1
+    col = int(col_str) - 1
     return (row, col)
 
 
 def check_coordinate(coord: str) -> bool:
     """Check if the input is a valid coordinate string (two non- negative
 digits seperated by a comma)."""
+    parts = coord.split(',')
     if len(parts) != 2:
         return False
-    if coord[1] != ",":
+    row_str, col_str = parts
+    if parts != ',':
         return False
-    if not coord[0].isdigit():
-        return False
-    if not coord[1].isdigit():
+    if not row_str.isdigit() and col_str.isdigit():
         return False
 
     return True
@@ -51,7 +51,7 @@ def parse_selection(player_input: str) -> list[tuple[int, int]] | None:
     """Parse a string of coordinate (e.g., '1,1 2,2') into a list of
 0-indexed tuples. Return None if any coordinate is invalid."""
     parts = []
-    for coord in coords:
+    for coord in parts:
         if not check_coordinate():
             return None
         parts.append(parse_coordinate(coord))
@@ -68,15 +68,15 @@ def check_game_bounds(coordinate_sequence: list[tuple[int, int]],
     if len(coordinate_sequence) != game_size:
         return False
     for coord_seq in coordinate_sequence:
-        row = coord_seq[0]
-        col = coord_seq[1]
+        row = coord_seq[row_str]
+        col = coord_seq[col_str]
         if row < 0 or col < 0:
             return False
         if row >= game_size or col >= game_size:
             return False
-    for  row in range(1, len(coordinate_sequence)):
-        for col in range(row+1, len(coordinate_sequence)):
-            if coordinate_sequence[i] == coordinate_sequence[]:
+    for  row_str in range(row_str, len(coordinate_sequence)):
+        for col_str in range(col_str+1, len(coordinate_sequence)):
+            if coordinate_sequence[row_str] == coordinate_sequence[col_str]:
                 return False
     return True
 
