@@ -14,7 +14,7 @@ def num_hours() ->float:
 def parse_coordinate(coord: str) -> tuple[int, int]:
     """Corvert a '1-indexed' coordinate string like '1,1' to a 0-indexed
 tuple."""
-row_str, col_str = coord.split(',')
+    row_str, col_str = coord.split(',')
     row = int(row_str) - 1
     col = int(col_str) - 1
     return (row, col)
@@ -50,11 +50,11 @@ def get_game_size() -> int:
 def parse_selection(player_input: str) -> list[tuple[int, int]] | None:
     """Parse a string of coordinate (e.g., '1,1 2,2') into a list of
 0-indexed tuples. Return None if any coordinate is invalid."""
-    parts = []
-    for coord in parts:
+    parts = player_input.split(',')
+    for part in parts:
         if not check_coordinate():
             return None
-        parts.append(parse_coordinate(coord))
+        coords.append(parse_coordinate(coord))
     return parts
         
 
