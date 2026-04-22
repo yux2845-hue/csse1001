@@ -68,15 +68,15 @@ def check_game_bounds(coordinate_sequence: list[tuple[int, int]],
     if len(coordinate_sequence) != game_size:
         return False
     for coord_seq in coordinate_sequence:
-        row = coord_seq[row_str]
-        col = coord_seq[col_str]
+        row = coord_seq[0]
+        col = coord_seq[1]
         if row < 0 or col < 0:
             return False
         if row >= game_size or col >= game_size:
             return False
-    for  row_str in range(row_str, len(coordinate_sequence)):
-        for col_str in range(col_str+1, len(coordinate_sequence)):
-            if coordinate_sequence[row_str] == coordinate_sequence[col_str]:
+    for  i in range(i, len(coordinate_sequence)):
+        for j in range(i + 1, len(coordinate_sequence)):
+            if coordinate_sequence[i] == coordinate_sequence[j]:
                 return False
     return True
 
@@ -84,42 +84,51 @@ def check_game_bounds(coordinate_sequence: list[tuple[int, int]],
 
 def get_action(game_size: int) -> str:
     """Repeatedly prompts the player until they enter a valid coordinate
-sequence, or a special command(h/help or q/quit).
+sequence, or a special command(h/H or q/Q).
 Input is case-insensitive and returned in lowercase.
 Invalid inputs print INVALID_MESSAGE from support.py"""
     while True:
-        user_input = input(COMMAND_PROMPT).strip().lower()
+        user_input = input(COMMAND_PROMPT)
+        
+        lower_user_input = user_input.lower()
 
-        if user_input == 'h' or user_input == 'help':
-            return HELP_COMMAND
-        if user_input == 'q' or user_input == 'quit':
-            return QUIT_COMMAND
+        if lowerd_user_input == HELP_COMMAND or lower_user_input == QUIT_COMMAND:
+            return lowerd_user_input
        
-        coords = parse_selection(user_input)
-        if coords is not None and check_game_bounds(coords, game_size):
-            return user_input
+        parsed = parse_selection(user_input)
+        if parsed is not None and check_game_bounds(coords, game_size):
+            return lower_user_input
         
         print(INVALID_MESSAGE)
           
 
 def generate_visible_state(game_size: int) -> tuple[tuple[str]]:
     """Generate the initial visible board state, filled with HIDDEN ('X')."""
-    return tuple(
-        tuple('X' for _ in range(game_size))
-        for _ in range(game_size)
-        )
+    part = []
+    for _ in range(game_size):
+        row[]
+        for _ in range(game_size):
+        row.append(HIDDEN)
+        part.append(row)
+    return part
+        
     
 
 def is_match(flipped: list[tuple[int, int]],
              hidden: tuple[tuple[str]]) -> str | None:
     """Check if all flipped cards have the same value.
 Return the value if they match, otherwise None."""
-    if len(flipped) != 2:
-        return None
-    (r1, c1), (r2, c2) = flipped
-    if hidden[r1][c1] == hidden[r2][c2]:
-        return hidden[r1][c1]
-    return None
+    first_row = flipped[0][0]
+    first_col = flipped[1][1]
+    first_value = [first_row][first_col]
+
+    for flip in flipped:
+        row = flip[0]
+        col = flip[1]
+        if hidden[row][col] != first_value:
+            return None
+
+    return first_value
     
 
 def peek(board: tuple[tuple[str]], hidden: tuple[tuple[str]],
