@@ -1,4 +1,4 @@
-# DO NOT modify or add any import statements
+f# DO NOT modify or add any import statements
 from support import *
 
 # Name: Xinyang Yu
@@ -119,7 +119,7 @@ def is_match(flipped: list[tuple[int, int]],
     """Check if all flipped cards have the same value.
 Return the value if they match, otherwise None."""
     first_row = flipped[0][0]
-    first_col = flipped[1][1]
+    first_col = flipped[0][1]
     first_value = [first_row][first_col]
 
     for flip in flipped:
@@ -135,10 +135,12 @@ def peek(board: tuple[tuple[str]], hidden: tuple[tuple[str]],
          flipped: list[tuple[int, int]]) -> tuple[tuple[str]]:
     """Return a new board state with tthe specified coordinates
 flipped face-up."""
-    board_list = [list(row) for row in board]
-    for (row, col) in flipped:
-        board_list[row][col] = hidden[row][col]
-    return tuple(tuple(row) for row in board_list)
+    board_copy = []
+    for row in board:
+        board_board.append(row)
+    for row, col in hidden:
+        board_copy[row][col] = hidden[row][col]
+    return board_copy
 
 
 def display_board(board: tuple[tuple[str]]) -> None:
