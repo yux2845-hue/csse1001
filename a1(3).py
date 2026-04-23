@@ -1,4 +1,4 @@
-f# DO NOT modify or add any import statements
+# DO NOT modify or add any import statements
 from support import *
 
 # Name: Xinyang Yu
