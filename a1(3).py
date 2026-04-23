@@ -147,10 +147,22 @@ def display_board(board: tuple[tuple[str]]) -> None:
     """Print the board in the required format
 (including row/column numbers and separagtors)."""
     size = len(board)
-    for _ in range(size):
-        print(f"{i+1}|" + "|".join(board[i]) + "|")
-        print(" " + "+-+" * size)
- 
+    print(" ", end="")
+    for col_num in range(1, size+1):
+        print(" " + f"{col_num}" + " ", end ="")
+    print()
+
+    boarder = " " + "+-+" +size
+
+    print(boarder)
+
+    for row_num in range(size):
+        print(row_num + 1, end="")
+        for row_num in board[row_num] :
+            print(f"|{value}|", end="")
+        print()
+        print(boarder)
+        
         
 def play_game() -> None:
     """Play a single game of Memory Mash from start to finish"""
@@ -165,21 +177,26 @@ def play_game() -> None:
 
         if action == HELP_COMMAND:
             print(HELP_COMMAND)
-        elif action == QUIT_COMMAND:
-            return
-        else:
-            flipped = parse_selection(actoin)
-            peeked = peek(visible, hidden, flipped)
-            display_board()
-            if is_match(flipped,hiddenn) is not None:
-                visible = peeked
-            all_realved = False
-            for x in visible :
-                if char != 'x' :
-                    break
-            all_realved = True
+            continue
             
-            if (visible):
+        if action == QUIT_COMMAND:
+            return
+            
+        flipped = parse_selection(actoin)
+        peeked = peek(visible, hidden, flipped)
+        display_board(peeked)
+        
+        if is_match(flipped,hiddenn) is not None:
+            visible = peeked
+            
+        all_realved = True
+        
+        for row in visible:
+            if visible != row:
+                if value == HIIDEN:
+                    all_realved = False
+                    
+        if all_realved:
             print(WIN_MESSAGE)
             return
 
@@ -191,9 +208,8 @@ def main() -> None:
 to quit."""
     while True:
         play_game()
-        again = input(AGAIN_PROMPT).strip().lower()
-        if again != 'y':
-            print("Thank for playing!")
+        again = input(AGAIN_PROMPT)
+        if again.lower() != 'y':
             break
 
 if __name__ == "__main__":
